@@ -70,7 +70,19 @@ namespace RideMeExtended
                     highlight.highlightColor = Highlight.HighlightColor.interactive;
                     highlight.isOn = false;
                     highlight.strength = 1f;
-                    highlight.targetRenderer = gameObject.GetComponentInChildren<Renderer>();
+                    var modelLocator = gameObject.GetComponent<ModelLocator>();
+                    if (modelLocator && modelLocator.modelTransform && modelLocator.modelTransform.gameObject)
+                    {
+                        var characterModel = modelLocator.modelTransform.gameObject.GetComponent<CharacterModel>();
+                        if (characterModel)
+                        {
+                            highlight.targetRenderer = characterModel.mainSkinnedMeshRenderer;
+                        }
+                    }
+                    if (!highlight.targetRenderer)
+                    {
+                        highlight.targetRenderer = gameObject.GetComponentInChildren<Renderer>();
+                    }                    
                     GenericDisplayNameProvider genericDisplayNameProvider = gameObject.GetComponent<GenericDisplayNameProvider>();
                     if (!genericDisplayNameProvider)
                     {

@@ -145,10 +145,14 @@ namespace RideMeExtended
                         CharacterBody characterBody = riderController.CharacterBody;
                         if (characterBody && characterBody.characterMotor)
                         {
+                            if (characterBody.characterMotor.Motor)
+                            {
+                                characterBody.characterMotor.Motor.ForceUnground();
+                            }                            
                             characterBody.characterMotor.useGravity = false;
                             characterBody.characterMotor.velocity = Vector3.zero;
                         }
-                        riderController.ToggleRiderHurtBox(true);
+                        riderController.ToggleRiderCollisions(true);
                         RideMeExtended.OnGlobalSeatChange?.Invoke(riderController, oldSeat, firstAvailableSeat);
                     }
                 }

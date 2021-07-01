@@ -96,7 +96,7 @@ namespace RideMeExtended
                         characterMotor.velocity = new Vector3(characterMotor.velocity.x, Mathf.Max(characterMotor.velocity.y, RideMeExtendedConfig.jumpRiderOnExitVelocity.Value), characterMotor.velocity.z);
                     }
                 }
-                this.ToggleRiderHurtBox(false);
+                this.ToggleRiderCollisions(false);
                 RideMeExtended.OnGlobalSeatChange?.Invoke(this, oldSeat, null);
             }    
         }
@@ -133,7 +133,7 @@ namespace RideMeExtended
             }
         }
 
-        public void ToggleRiderHurtBox(bool disable)
+        public void ToggleRiderCollisions(bool disable)
         {
             if (RideMeExtendedConfig.disableRiderHurtBoxEnabled.Value && this.CharacterBody && this.CharacterBody.modelLocator && this.CharacterBody.modelLocator.modelTransform)
             {
@@ -149,6 +149,10 @@ namespace RideMeExtended
                         hurtboxGroup.hurtBoxesDeactivatorCounter--;
                     }
                 }
+            }
+            if (this.CharacterBody && this.CharacterBody.characterMotor && this.CharacterBody.characterMotor.capsuleCollider)
+            {
+                this.CharacterBody.characterMotor.capsuleCollider.enabled = !disable;
             }            
         }
 
