@@ -1,0 +1,11 @@
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\bin\Release\netstandard2.0\RideMeExtended.deps.json
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\bin\Release\netstandard2.0\RideMeExtended.dll
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\bin\Release\netstandard2.0\RideMeExtended.pdb
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\bin\Release\netstandard2.0\UnityEngine.Networking.dll
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\obj\Release\netstandard2.0\RideMeExtended.csproj.CoreCompileInputs.cache
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\obj\Release\netstandard2.0\RideMeExtended.AssemblyInfoInputs.cache
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\obj\Release\netstandard2.0\RideMeExtended.AssemblyInfo.cs
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\obj\Release\netstandard2.0\RideMeExtended.csproj.CopyComplete
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\obj\Release\netstandard2.0\RideMeExtended.dll
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\obj\Release\netstandard2.0\RideMeExtended.pdb
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-RideMeExtended-Mod\src\obj\Release\netstandard2.0\RideMeExtended.csprojAssemblyReference.cache
