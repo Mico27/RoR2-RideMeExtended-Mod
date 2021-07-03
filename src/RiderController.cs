@@ -46,10 +46,13 @@ namespace RideMeExtended
                     {
                         var transform = currentSeat.SeatTransform;
                         var getPositionOffset = currentSeat.PositionOffsetGetter;
-                        var newPosition = (getPositionOffset != null) ? transform.position + (transform.rotation * getPositionOffset(this.CharacterBody)) : transform.position;
-                        if (currentSeat.AlignToSeatRotation)
+                        var newPosition = (getPositionOffset != null) ? transform.position + getPositionOffset(currentSeat) : transform.position;                        
+                        if (currentSeat.AlignToSeatRotation && this.CharacterBody.characterDirection)
                         {
-                            motor.SetPositionAndRotation(newPosition, transform.rotation, true);
+                            var getRotationOffset = currentSeat.RotationOffsetGetter;
+                            var newRotation = (getRotationOffset != null) ? transform.rotation * getRotationOffset(currentSeat) : transform.rotation;
+                            motor.SetPositionAndRotation(newPosition, newRotation, true);
+                            this.CharacterBody.characterDirection.targetTransform.rotation = newRotation;
                         }
                         else
                         {
@@ -63,7 +66,7 @@ namespace RideMeExtended
                 }
             }
         }
-                
+                        
         public override int GetNetworkChannel()
         {
             return QosChannelIndex.defaultReliable.intVal;
@@ -94,6 +97,10 @@ namespace RideMeExtended
                     {
                         characterMotor.Motor.ForceUnground();
                         characterMotor.velocity = new Vector3(characterMotor.velocity.x, Mathf.Max(characterMotor.velocity.y, RideMeExtendedConfig.jumpRiderOnExitVelocity.Value), characterMotor.velocity.z);
+                    }
+                    if (this.CharacterBody.characterDirection)
+                    {
+                        this.CharacterBody.characterDirection.enabled = true;
                     }
                 }
                 this.ToggleRiderCollisions(false);
@@ -128,6 +135,10 @@ namespace RideMeExtended
                     this.CurrentSeat.SeatUser = null;
                     this.CurrentSeat = firstAvailableSeat;
                     firstAvailableSeat.SeatUser = this;
+                    if (this.CharacterBody.characterDirection)
+                    {
+                        this.CharacterBody.characterDirection.enabled = !firstAvailableSeat.AlignToSeatRotation;
+                    }
                     RideMeExtended.OnGlobalSeatChange?.Invoke(this, oldSeat, firstAvailableSeat);
                 }
             }

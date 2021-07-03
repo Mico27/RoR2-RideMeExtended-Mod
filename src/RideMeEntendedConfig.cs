@@ -14,7 +14,7 @@ namespace RideMeExtended
 
         public static void ReadConfig()
         {
-            disableRiderHurtBoxEnabled = GetSetConfig("Riders", "Disable hurtboxes upon riding", true, "Disable hurtboxes upon riding");
+            disableRiderHurtBoxEnabled = GetSetConfig("Riders", "Disable hurtboxes upon riding", false, "Disable hurtboxes upon riding");
             jumpRiderOnExitEnabled = GetSetConfig("Riders", "Enable jump on seat exit", true, "Enable jump on seat exit");
             jumpRiderOnExitVelocity = GetSetConfig("Riders", "Jump velocity on seat exit", 20f, "Jump velocity on seat exit");
             defaultSeatPositionOffset = GetSetConfig("Rideables", "Default seat position offset", new Vector3(0f, 3f, 0f), "Default seat position offset");

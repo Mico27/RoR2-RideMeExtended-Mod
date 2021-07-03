@@ -71,7 +71,7 @@ namespace RideMeExtended
             }
         }
 
-        private static Vector3 GetLegacyPositionOffset(CharacterBody characterBody)
+        private static Vector3 GetLegacyPositionOffset(RideSeat seat)
         {
             return RideMeExtendedConfig.defaultSeatPositionOffset.Value;
         }
@@ -151,6 +151,10 @@ namespace RideMeExtended
                             }                            
                             characterBody.characterMotor.useGravity = false;
                             characterBody.characterMotor.velocity = Vector3.zero;
+                            if (characterBody.characterDirection)
+                            {
+                                characterBody.characterDirection.enabled = !firstAvailableSeat.AlignToSeatRotation;
+                            }
                         }
                         riderController.ToggleRiderCollisions(true);
                         RideMeExtended.OnGlobalSeatChange?.Invoke(riderController, oldSeat, firstAvailableSeat);
