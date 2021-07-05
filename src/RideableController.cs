@@ -16,6 +16,7 @@ namespace RideMeExtended
         {
             if (Run.instance)
             {
+                CanRide = true;
                 this.TeamIndex = base.GetComponent<TeamComponent>().teamIndex;
                 this.CharacterBody = base.GetComponent<CharacterBody>();
                 var bodyIndex = BodyCatalog.FindBodyIndex(this.CharacterBody.name);
@@ -55,19 +56,25 @@ namespace RideMeExtended
                                 SeatTransform = chest,
                                 PositionOffsetGetter = GetLegacyPositionOffset
                             });
-                        }
-                        else
-                        {
-                            this.AvailableSeats.Add(new RideSeat()
-                            {
-                                SeatUser = null,
-                                SeatOwner = this,
-                                SeatTransform = base.GetComponent<ModelLocator>().modelTransform,
-                                PositionOffsetGetter = GetLegacyPositionOffset
-                            });
+                            return;
                         }
                     }
+                    this.AvailableSeats.Add(new RideSeat()
+                    {
+                        SeatUser = null,
+                        SeatOwner = this,
+                        SeatTransform = base.GetComponent<ModelLocator>().modelTransform,
+                        PositionOffsetGetter = GetLegacyPositionOffset
+                    });
+                    return;
                 }
+                this.AvailableSeats.Add(new RideSeat()
+                {
+                    SeatUser = null,
+                    SeatOwner = this,
+                    SeatTransform = base.transform,
+                    PositionOffsetGetter = GetLegacyPositionOffset
+                });
             }
         }
 
@@ -87,8 +94,8 @@ namespace RideMeExtended
         }
 
         public Interactability GetInteractability(Interactor activator)
-        {
-            if (CanRide && activator && activator.gameObject)
+        {            
+            if (CanRide && activator && activator.gameObject && activator.gameObject != base.gameObject)
             {
                 TeamComponent teamComponent = activator.GetComponent<TeamComponent>();
                 RiderController riderController = activator.GetComponent<RiderController>();
@@ -96,28 +103,25 @@ namespace RideMeExtended
                 if (teamComponent &&
                     riderController &&
                     teamComponent.teamIndex == this.TeamIndex &&
-                    riderController.gameObject != base.gameObject &&
                     riderController.CurrentSeat == null &&
                     (!rideableController || !rideableController.AvailableSeats.Any(x=>x.SeatUser)) &&
                     this.AvailableSeats.Any(x => !x.SeatUser))
                 {
                     return Interactability.Available;
                 }
-            }
+            }            
             return Interactability.Disabled;
         }
 
         [Server]
         public void OnInteractionBegin(Interactor activator)
         {
-            RideMeExtended.Instance.Logger.LogMessage("OnInteractionBegin");
             var rider = activator.GetComponent<RiderController>();
             if (CanRide && rider)
             {
                 var firstAvailableSeatIndex = GetNextAvailableSeatIndex(rider.CurrentSeat);
                 if (firstAvailableSeatIndex != -1)
                 {
-                    RideMeExtended.Instance.Logger.LogMessage("OnInteractionBegin -> RpcEnterSeat");
                     this.RpcEnterSeat(firstAvailableSeatIndex, activator.gameObject);
                 }
             }
@@ -126,7 +130,6 @@ namespace RideMeExtended
         [ClientRpc]
         public void RpcEnterSeat(int seatIndex, GameObject rider)
         {
-            RideMeExtended.Instance.Logger.LogMessage("RpcEnterSeat: seatIndex: " + seatIndex + " rider: " + ((rider) ? rider.name : "null"));
             if (rider)
             {
                 var riderController = rider.GetComponent<RiderController>();

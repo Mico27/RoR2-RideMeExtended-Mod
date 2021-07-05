@@ -2,6 +2,12 @@
 - A mod that allows you to ride other members of your team.
 - It is an extended version of the original mod https://thunderstore.io/package/xiaoxiao921/RideMe/ which allows more customization for other mods implementation.
 
+## How it works
+- Pressing interact will make the user mount.
+- Pressing interact again while mounted will switch seat (if a mod implementad multiple seats. by default there's always one seat)
+- Pressing Jump will make you unmount
+- There is a config to ajust some parameters, such as jump height on unmount, disabling hurtboxes while mounted, etc.
+
 ## Example of implementation for other mods
 - You can see an example of implementation here: https://github.com/Mico27/RoR2-TTGL-Mod/blob/main/src/ExternalHelper/RideMeExtendedAddin.cs
 - Here's a few properties/functions in RideMeExtended that allows implementation of other mods
@@ -31,6 +37,9 @@
 feel free to ping/dm me with any questions / suggestion / complaints on the modding discord- @Mico27#0642
 
 ## Changelog
+
+`1.0.1`
+- Engie's turrets and squid turrets are now rideable.
 
 `1.0.0`
 - Initial release

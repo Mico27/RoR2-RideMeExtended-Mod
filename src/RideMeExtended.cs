@@ -24,7 +24,7 @@ namespace RideMeExtended
             MODNAME = "RideMeExtended",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "1.0.0";
+            MODVERSION = "1.0.1";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         public void Awake()
@@ -48,7 +48,7 @@ namespace RideMeExtended
         {
             orig.Invoke();
             foreach (GameObject gameObject in Reflection.GetFieldValue<GameObject[]>(typeof(BodyCatalog), "bodyPrefabs"))
-            {
+            {                
                 if (!RiderBodyBlacklist.Contains(gameObject.name))
                 {
                     if (!gameObject.GetComponent<RiderController>())
@@ -58,6 +58,12 @@ namespace RideMeExtended
                 }
                 if (!RideableBodyBlacklist.Contains(gameObject.name))
                 {
+                    if (gameObject.name == "EngiTurretBody" ||
+                        gameObject.name == "EngiWalkerTurretBody" ||
+                        gameObject.name == "SquidTurretBody")
+                    {
+                        gameObject.layer = 0; //Set to default layer instead of fakeActor layer
+                    }
                     if (!gameObject.GetComponent<RideableController>())
                     {
                         gameObject.AddComponent<RideableController>();

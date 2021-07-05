@@ -75,14 +75,12 @@ namespace RideMeExtended
         [Command]
         public void CmdExitSeat()
         {
-            RideMeExtended.Instance.Logger.LogMessage("CmdExitSeat");
             this.RpcExitSeat();
         }
 
         [ClientRpc]
         public void RpcExitSeat()
         {
-            RideMeExtended.Instance.Logger.LogMessage("RpcExitSeat");
             if (this.CurrentSeat != null)
             {
                 var oldSeat = this.CurrentSeat;
@@ -111,7 +109,6 @@ namespace RideMeExtended
         [Command]
         public void CmdSwapSeat()
         {
-            RideMeExtended.Instance.Logger.LogMessage("CmdSwapSeat");
             if (this.CurrentSeat != null && this.CurrentSeat.SeatOwner != null)
             {
                 var nextAvailableSeatIndex = this.CurrentSeat.SeatOwner.GetNextAvailableSeatIndex(this.CurrentSeat);
@@ -125,7 +122,6 @@ namespace RideMeExtended
         [ClientRpc]
         public void RpcSwapSeat(int seatIndex)
         {
-            RideMeExtended.Instance.Logger.LogMessage("RpcSwapSeat: seatIndex: " + seatIndex);
             if (this.CurrentSeat != null && this.CurrentSeat.SeatOwner != null)
             {
                 var firstAvailableSeat = this.CurrentSeat.SeatOwner.GetSeatAtIndex(seatIndex);
