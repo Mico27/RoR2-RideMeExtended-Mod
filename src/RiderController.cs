@@ -91,10 +91,10 @@ namespace RideMeExtended
                     var characterMotor = this.CharacterBody.characterMotor;
                     characterMotor.useGravity = true;
                     characterMotor.velocity = Vector3.zero;
-                    if (RideMeExtendedConfig.jumpRiderOnExitEnabled.Value)
+                    if (RideMeExtendedConfig.jumpRiderOnExitEnabled)
                     {
                         characterMotor.Motor.ForceUnground();
-                        characterMotor.velocity = new Vector3(characterMotor.velocity.x, Mathf.Max(characterMotor.velocity.y, RideMeExtendedConfig.jumpRiderOnExitVelocity.Value), characterMotor.velocity.z);
+                        characterMotor.velocity = new Vector3(characterMotor.velocity.x, Mathf.Max(characterMotor.velocity.y, RideMeExtendedConfig.jumpRiderOnExitVelocity), characterMotor.velocity.z);
                     }
                     if (this.CharacterBody.characterDirection)
                     {
@@ -142,7 +142,7 @@ namespace RideMeExtended
 
         public void ToggleRiderCollisions(bool disable)
         {
-            if (RideMeExtendedConfig.disableRiderHurtBoxEnabled.Value && this.CharacterBody && this.CharacterBody.modelLocator && this.CharacterBody.modelLocator.modelTransform)
+            if (RideMeExtendedConfig.disableRiderHurtBoxEnabled && this.CharacterBody && this.CharacterBody.modelLocator && this.CharacterBody.modelLocator.modelTransform)
             {
                 var hurtboxGroup = this.CharacterBody.modelLocator.modelTransform.GetComponent<HurtBoxGroup>();
                 if (hurtboxGroup)

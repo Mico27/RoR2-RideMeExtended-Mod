@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Security;
 using System.Security.Permissions;
 using UnityEngine;
+using BepInEx.Configuration;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -24,7 +25,7 @@ namespace RideMeExtended
             MODNAME = "RideMeExtended",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "1.0.1";
+            MODVERSION = "1.0.2";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         public void Awake()
@@ -48,19 +49,20 @@ namespace RideMeExtended
         {
             orig.Invoke();
             foreach (GameObject gameObject in Reflection.GetFieldValue<GameObject[]>(typeof(BodyCatalog), "bodyPrefabs"))
-            {                
-                if (!RiderBodyBlacklist.Contains(gameObject.name))
+            {
+                if (!RiderBodyBlacklist.Contains(gameObject.name) &&
+                    !Config.Bind<bool>(new ConfigDefinition("Rider blacklist", gameObject.name), false, new ConfigDescription("Makes " + gameObject.name + " not able to ride anything.")).Value &&
+                    !gameObject.GetComponent<RiderController>())
                 {
-                    if (!gameObject.GetComponent<RiderController>())
-                    {
-                        gameObject.AddComponent<RiderController>();
-                    }
+                    gameObject.AddComponent<RiderController>();
                 }
-                if (!RideableBodyBlacklist.Contains(gameObject.name))
+                if (!RideableBodyBlacklist.Contains(gameObject.name) &&
+                    !Config.Bind<bool>(new ConfigDefinition("Rideable blacklist", gameObject.name), false, new ConfigDescription("Makes " + gameObject.name + " not rideable.")).Value)
                 {
                     if (gameObject.name == "EngiTurretBody" ||
                         gameObject.name == "EngiWalkerTurretBody" ||
-                        gameObject.name == "SquidTurretBody")
+                        gameObject.name == "SquidTurretBody" ||
+                        (RideMeExtendedConfig.canRideOtherTeams && gameObject.layer != 0))
                     {
                         gameObject.layer = 0; //Set to default layer instead of fakeActor layer
                     }

@@ -8,6 +8,14 @@
 - Pressing Jump will make you unmount
 - There is a config to ajust some parameters, such as jump height on unmount, disabling hurtboxes while mounted, etc.
 
+## Configs
+There are a bunch of additional config you can adjust:
+- Specify a blacklist of which character cant ride or not be rideable
+- You can specify the default offset of seats
+- You can disable the rider's hitboxes while riding
+- You can enable riding enemies
+- etc.
+
 ## Example of implementation for other mods
 - You can see an example of implementation here: https://github.com/Mico27/RoR2-TTGL-Mod/blob/main/src/ExternalHelper/RideMeExtendedAddin.cs
 - Here's a few properties/functions in RideMeExtended that allows implementation of other mods
@@ -37,6 +45,10 @@
 feel free to ping/dm me with any questions / suggestion / complaints on the modding discord- @Mico27#0642
 
 ## Changelog
+
+`1.0.2`
+- Added the possiblity to add to the rider and rideable blacklist through config.
+- Added the option to mount enemies through config.
 
 `1.0.1`
 - Engie's turrets and squid turrets are now rideable.

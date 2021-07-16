@@ -80,7 +80,7 @@ namespace RideMeExtended
 
         private static Vector3 GetLegacyPositionOffset(RideSeat seat)
         {
-            return RideMeExtendedConfig.defaultSeatPositionOffset.Value;
+            return RideMeExtendedConfig.defaultSeatPositionOffset;
         }
 
         public string GetContextString(Interactor activator)
@@ -102,7 +102,7 @@ namespace RideMeExtended
                 RideableController rideableController = activator.GetComponent<RideableController>();
                 if (teamComponent &&
                     riderController &&
-                    teamComponent.teamIndex == this.TeamIndex &&
+                    (RideMeExtendedConfig.canRideOtherTeams || teamComponent.teamIndex == this.TeamIndex) &&
                     riderController.CurrentSeat == null &&
                     (!rideableController || !rideableController.AvailableSeats.Any(x=>x.SeatUser)) &&
                     this.AvailableSeats.Any(x => !x.SeatUser))
@@ -160,6 +160,7 @@ namespace RideMeExtended
                             }
                         }
                         riderController.ToggleRiderCollisions(true);
+                        RideMeExtended.Instance.Logger.LogMessage(rider.name + " is now riding " + base.name);
                         RideMeExtended.OnGlobalSeatChange?.Invoke(riderController, oldSeat, firstAvailableSeat);
                     }
                 }
@@ -304,6 +305,5 @@ namespace RideMeExtended
 
         [SyncVar]
         public bool CanRide = true;
-
     }
 }
