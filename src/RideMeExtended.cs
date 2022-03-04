@@ -1,7 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
-using R2API;
-using R2API.Utils;
+//using R2API;
+//using R2API.Utils;
 using RoR2;
 using System;
 using System.Collections.Generic;
@@ -15,17 +15,16 @@ using BepInEx.Configuration;
 
 namespace RideMeExtended
 {
-    [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
+    //[BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
+    //[NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInPlugin(MODUID, MODNAME, MODVERSION)]
-    [R2APISubmoduleDependency(nameof(LanguageAPI))]
     public sealed class RideMeExtended : BaseUnityPlugin
     {
         public const string
             MODNAME = "RideMeExtended",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "1.0.2";
+            MODVERSION = "1.1.0";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         public void Awake()
@@ -34,8 +33,7 @@ namespace RideMeExtended
             try
             {
                 RideMeExtendedConfig.ReadConfig();
-                LanguageAPI.Add("RIDE_INTERACTION", "Ride me");
-                LanguageAPI.Add("RIDE_CONTEXT", "Ride me");
+                On.RoR2.Language.Init += Language_Init;                
                 On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
                 On.RoR2.GlobalEventManager.OnInteractionBegin += GlobalEventManager_OnInteractionBegin;
             }
@@ -45,10 +43,17 @@ namespace RideMeExtended
             }
         }
 
+        private void Language_Init(On.RoR2.Language.orig_Init orig)
+        {
+            orig.Invoke();
+            Language.english.SetStringByToken("RIDE_INTERACTION", "Ride me");
+            Language.english.SetStringByToken("RIDE_CONTEXT", "Ride me");
+        }
+
         private void BodyCatalog_Init(On.RoR2.BodyCatalog.orig_Init orig)
         {
             orig.Invoke();
-            foreach (GameObject gameObject in Reflection.GetFieldValue<GameObject[]>(typeof(BodyCatalog), "bodyPrefabs"))
+            foreach (GameObject gameObject in BodyCatalog.bodyPrefabs)
             {
                 if (!RiderBodyBlacklist.Contains(gameObject.name) &&
                     !Config.Bind<bool>(new ConfigDefinition("Rider blacklist", gameObject.name), false, new ConfigDescription("Makes " + gameObject.name + " not able to ride anything.")).Value &&

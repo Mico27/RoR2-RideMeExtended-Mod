@@ -1,1 +1,5 @@
 src/.vs/
+.vs
+/src/libs
+/src/NetworkWeaver
+/src/obj

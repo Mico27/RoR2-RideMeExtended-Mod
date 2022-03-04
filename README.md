@@ -46,6 +46,9 @@ feel free to ping/dm me with any questions / suggestion / complaints on the modd
 
 ## Changelog
 
+`1.1.0`
+- Void update.
+
 `1.0.2`
 - Added the possiblity to add to the rider and rideable blacklist through config.
 - Added the option to mount enemies through config.
